@@ -71,7 +71,7 @@ void basicCount(string filename, int *cnt)
 void extendedCount(string filename, int *cnt)
 {
 	string line;
-	int flagQuotes = 0, flagSlah = 0, flagCode = 0, flagComment = 0;
+	int flagSlah = 0, flagCode = 0, flagComment = 0;
 	int i, nBoth = 0;
 	fstream inFile;
 	inFile.open(filename);
