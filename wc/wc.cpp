@@ -36,7 +36,7 @@ void getFiles(string path, string path2, vector<string>& files)
 void basicCount(string filename, int *cnt)
 {
 	char ch;
-	char lch;
+	char lch='\0';
 	fstream inFile;
 	inFile.open(filename);
 	if (!inFile.is_open())
@@ -47,9 +47,9 @@ void basicCount(string filename, int *cnt)
 	bool wFlag = false;
 	bool mark;
 	inFile >> noskipws;
-	inFile >> ch;
 	while (!inFile.eof())
 	{
+		inFile >> ch;
 		if (inFile.good())
 		{
 			mark = (ch == ' ' || ch == ';' || ch == ',' || ch == '\t' || ch == '\n' || ch == '(' || ch == ')');
@@ -62,7 +62,6 @@ void basicCount(string filename, int *cnt)
 				cnt[2]++; //line
 			lch = ch;
 		}
-		inFile >> ch;
 	}
 	inFile.close();
 	if (lch != '\n')
@@ -185,7 +184,7 @@ int main(int argc, char* argv[])
 	char   buffer[MAX_PATH];
 	_getcwd(buffer, MAX_PATH);
 	int cnt[6] = { 0 };
-	string filePath = argv[argc - 1];
+	string filePath;
 	if (_s)
 	{
 		filePath.assign(buffer).append("\\");
@@ -197,9 +196,9 @@ int main(int argc, char* argv[])
 			basicCount(files[i].c_str(), cnt);
 			extendedCount(files[i].c_str(), cnt);
 			if (_w)
-				cout << "words:" << cnt[0] << endl;
+				cout << "words:" << cnt[1] << endl;
 			if (_c)
-				cout << "characters:" << cnt[1] << endl;
+				cout << "characters:" << cnt[0] << endl;
 			if (_l)
 				cout << "lines:" << cnt[2] << endl;
 			if (_a)
@@ -208,6 +207,8 @@ int main(int argc, char* argv[])
 				cout << "comments lines:" << cnt[4] << endl;
 				cout << "codes lines:" << cnt[5] << endl;
 			}
+			cout << endl;
+			memset(cnt, 0, sizeof(cnt));
 		}
 	}
 	else
@@ -215,9 +216,9 @@ int main(int argc, char* argv[])
 		basicCount(argv[argc - 1], cnt);
 		extendedCount(argv[argc - 1], cnt);
 		if (_w)
-			cout << "words:" << cnt[0] << endl;
+			cout << "words:" << cnt[1] << endl;
 		if (_c)
-			cout << "characters:" << cnt[1] << endl;
+			cout << "characters:" << cnt[0] << endl;
 		if (_l)
 			cout << "lines:" << cnt[2] << endl;
 		if (_a)
